@@ -125,11 +125,14 @@ clmean <- matrix(unlist(clmean.l),nrow=K,byrow=TRUE)
 clmed.l <- by(x,newgr,function(y) {apply(y,2,median)})
 clmed <- matrix(unlist(clmed.l),nrow=K,byrow=TRUE)
 
-colnames(d1$scale) <- paste("V",1:dim(d1$scale)[2],sep="")
-rownames(d1$scale) <- paste("Cluster",1:K,sep="")
-colnames(d1$shape) <- paste("V",1:dim(d1$shape)[2],sep="")
-rownames(d1$shape) <- paste("Cluster",1:K,sep="")
+if (is.null(colnames(x))) {
+  colnames(d1$scale) <- paste("V",1:dim(d1$scale)[2],sep="")
+  colnames(d1$shape) <- paste("V",1:dim(d1$shape)[2],sep="")
+} else {
+  colnames(d1$scale) <- colnames(d1$shape) <- colnames(x)
+}
 
+rownames(d1$shape) <- rownames(d1$scale) <- paste("Cluster",1:K,sep="") 
 
 result <- list(K=K, iter=iter, method=method, Sdist=Sdist, likelihood=likconv,
      pvisit=d1$prior, shape=d1$shape, scale=d1$scale, group=newgr,posteriors=postmat,npar=anzpar,aic=aic,bic=bic,clmean=clmean,clmed=clmed)

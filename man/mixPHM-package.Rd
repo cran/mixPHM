@@ -6,7 +6,7 @@
 Mixtures of proportional hazard models
 }
 \description{
-This package fits multivariate mixtures of various parametric proportional hazard models using the EM-Algorithm. 
+This package fits multiple variable mixtures of various parametric proportional hazard models using the EM-Algorithm. 
 Proportionality restrictions can be imposed on the latent groups and/or on the variables. 
 Several survival distributions can be specified. Missing values are allowed. Independence is assumed over the single variables.
 }
@@ -14,8 +14,8 @@ Several survival distributions can be specified. Missing values are allowed. Ind
 \tabular{ll}{
 Package: \tab mixPHM\cr
 Type: \tab Package\cr
-Version: \tab 0.5.0\cr
-Date: \tab 2007-07-19\cr
+Version: \tab 0.5.1\cr
+Date: \tab 2007-08-02\cr
 License: \tab GPL\cr
 }
 }

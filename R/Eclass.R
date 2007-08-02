@@ -1,29 +1,40 @@
 `Eclass` <-
 function(x, old, K, method, Sdist,p)
-
 {
 
 shape <- matrix(NA, K, p)	           # K x p Matrix with Shape-Parameter
 scale <- matrix(NA, K, p)            # K x p Matrix with Scale-Parameter
 
-#check whether one-element cluster
-if (any(as.vector(table(old))==1)) stop("Cluster contains only one observation! Cannot proceed with estimation! Please choose another starting solution or less components K!")
+#-------------sanity checks during EM-iteration-----------------
+if (any(as.vector(table(old))==1)) {   #if a frequency equals 1
+  outlier <- (1:length(old))[which(old==which(table(old)==1))]
+  cat("Cluster contains only one observation! Subject",outlier,"may be an outlier!\n") 
+  stop("Cannot proceed with estimation!")
+}
+if (length(unique(old))!=K) {         #if a cluster doesn't contain any element
+  stop("Cluster contains 0 elements! Re-run with less components!")
+}
 
+for (j in 1:K) {
+  y <- as.matrix(x[old==j,]) 
+  ttab <- apply(y,2,table,exclude=0)         #table of dwell-times (list)
+  lvec <- sapply(ttab,length)                #vector with different dwell-times for each page
+  ind0 <- which(lvec<=1)                     #column index for those with less than 2 values
+  rep.el <- sort(unique(as.vector(y)))[2:3]  #elements for 0-replacement (2 smallest except 0)
+  if (length(ind0) >= 1) {
+       for (i in ind0) y[,i][which(y[,i]==0)][1:2] <- rep.el
+       warning("Complete 0 survival times in cluster occured. Two of them are replaced by minimum survival times in order to proceed with estimation!")
+  }
+  x[old==j,] <- y
+}
+#-------------end sanity checks----------------------
 
-priorl <- by(x,old,function(y) {                                              #list of prior probabilities
+priorl <- by(x,old,function(y) {                           #list of prior probabilities
                     y <- as.matrix(y)
-                    nses <- length(y[,1])                                     #number of sessions in group
-                    apply(y,2,function(z){ lz <- length(z[z>0])/nses})        #vector with prior probabilities
+                    nses <- length(y[,1])                  #number of sessions in group
+                    apply(y,2,function(z){ lz <- length(z[z>0])/nses})  
                     })
 prior <- matrix(unlist(priorl),ncol=p,byrow=TRUE)                             #matrix of prior probabilities
-
-#tapply(1:dim(x)[1],old, function(ind) {
-#         y <- as.matrix(x[ind,])
-#         ptot <- colSums(y)
-#         if (any(ptot==0)) {
-#           indp <- (1:length(ptot))[ptot==0] 
-#           stop("Complete-0 dwell times in cluster during iteration in variable ",indp,". Estimation abandoned!")
-#         }})
 
 if (method=="separate") {  
    parlist <- tapply(1:dim(x)[1],old, function(ind) {
