@@ -1,5 +1,5 @@
 `Eclass` <-
-function(x, old, K, method, Sdist,p)
+function(x, old, K, method, Sdist,p, cutpoint)
 {
 
 shape <- matrix(NA, K, p)	           # K x p Matrix with Shape-Parameter
@@ -36,11 +36,14 @@ priorl <- by(x,old,function(y) {                           #list of prior probab
                     })
 prior <- matrix(unlist(priorl),ncol=p,byrow=TRUE)                             #matrix of prior probabilities
 
+#------------- separate ----------------------
 if (method=="separate") {  
    parlist <- tapply(1:dim(x)[1],old, function(ind) {
                          y <- as.matrix(x[ind,])
                          apply(y,2,function(z) {
-                            wphm <- survreg(Surv(z[z>0])~1,dist=Sdist)        #wphm for each page within group
+                            censvec <- rep(1, length(z))   
+                            censvec[z > cutpoint] <- 0     #vector for censored data (set to 0)
+                            wphm <- survreg(Surv(z[z>0], censvec[z>0])~1,dist=Sdist)        #wphm for each page within group
                             shapep <- 1/wphm$scale
                             scalep <- exp(wphm$coefficients[1])
                             list(scalep,shapep)
@@ -53,14 +56,16 @@ if (method=="separate") {
    anzpar <- 2*K*p
 }
 
-
+#---------------------- group contrast ----------------------
 if (method=="main.g") {
     for (i in 1:p) {
-       datreg  <- as.vector(x[, i])			#VD-vektor für i-te Seite
-       datreg  <- datreg[x[, i]>0]
-       xold    <- old[x[, i]>0]				#Gruppenvektor für i-te Seite
+       datreg  <- as.vector(x[,i])			#VD-vektor für i-te Seite
+       datreg  <- datreg[x[,i] > 0]
+       censvec <- rep(1, length(datreg))   
+       censvec[datreg > cutpoint] <- 0     #vector for censored data (set to 0)                 
+       xold    <- old[x[,i] > 0]				#Gruppenvektor für i-te Seite
 
-       wphm <- survreg(Surv(datreg)~factor(xold),dist=Sdist)
+       wphm <- survreg(Surv(datreg, censvec)~factor(xold),dist=Sdist)
        scalebase <- as.vector(wphm$coefficients[1])	#scale parameter group 1 (reference group)
        scalevec1 <- as.vector(exp(wphm$coefficients[2:K]+scalebase)) #scale parameter of the remaining groups
        scale [,i] <- c(exp(scalebase),scalevec1)
@@ -69,6 +74,7 @@ if (method=="main.g") {
 anzpar <- K*p+p
 }
 
+#------------- page constasts -----------------
 
 if (method=="main.p") {
     for (j in 1:K)  {
@@ -78,8 +84,10 @@ if (method=="main.p") {
        datreg <- as.vector(datregmat)
        xold <- pagevek[datreg > 0]				#VD > 0
        datreg <- datreg[datreg > 0]
-
-       wphm <- survreg(Surv(datreg)~factor(xold),dist=Sdist)  		#xold bezieht sich auf seiten
+       censvec <- rep(1, length(datreg))   
+       censvec[datreg > cutpoint] <- 0     #vector for censored data (set to 0)                 
+           
+       wphm <- survreg(Surv(datreg, censvec)~factor(xold),dist=Sdist)  		#xold bezieht sich auf seiten
        scalebase <- as.vector(wphm$coefficients[1])
        scalevec1 <- as.vector(exp(wphm$coefficients[2:p]+scalebase))
        scale[j,] <- c(exp(scalebase),scalevec1)
@@ -87,6 +95,8 @@ if (method=="main.p") {
      }
 anzpar <- K*p+K
 }
+
+#------------ page*group interaction  ----------------
 
 if (method=="int.gp") {
     datreg <- as.vector(x)
@@ -96,8 +106,10 @@ if (method=="int.gp") {
     xoldg <- oldall[datreg > 0]				#Gruppencontrast
     xoldp <- pagevek[datreg > 0]			#Seitencontrast
     datreg <- datreg[datreg > 0]
-
-    wphm <- survreg(Surv(datreg)~factor(xoldg)*factor(xoldp),dist=Sdist)
+    censvec <- rep(1, length(datreg))   
+    censvec[datreg > cutpoint] <- 0     #vector for censored data (set to 0)                 
+     
+    wphm <- survreg(Surv(datreg, censvec)~factor(xoldg)*factor(xoldp),dist=Sdist)
     scalebase <- as.vector(exp(wphm$coefficients[1]))
     scaleg <- exp(c(0,wphm$coefficient[2:K]))		#group contrast
     scalep <- exp(c(0,wphm$coefficient[(K+1):(K+p-1)])) #page contrast
@@ -109,6 +121,8 @@ if (method=="int.gp") {
     anzpar <- K*p+1
 }
 
+#------------------ page + group main effects ----------------
+
 if (method=="main.gp") {
     datreg <- as.vector(x)
     nsess <- dim(x)[1]
@@ -117,8 +131,10 @@ if (method=="main.gp") {
     xoldg <- oldall[datreg > 0]				#Gruppencontrast
     xoldp <- pagevek[datreg > 0]			#Seitencontrast
     datreg <- datreg[datreg > 0]
-
-    wphm <- survreg(Surv(datreg)~factor(xoldg)+factor(xoldp),dist=Sdist)
+    censvec <- rep(1, length(datreg))   
+    censvec[datreg > cutpoint] <- 0     #vector for censored data (set to 0)                 
+    
+    wphm <- survreg(Surv(datreg, censvec)~factor(xoldg)+factor(xoldp),dist=Sdist)
     scalebase <- as.vector(exp(wphm$coefficients[1]))
     scaleg <- exp(c(0,wphm$coefficient[2:K]))		#group contrast
     scalep <- exp(c(0,wphm$coefficient[(K+1):(K+p-1)]))	#page contrast
@@ -127,7 +143,7 @@ if (method=="main.gp") {
     anzpar <- K+p
 }
 
-list (scale=scale,shape=shape,prior=prior,anzpar=anzpar)
+list (scale = scale, shape = shape, prior = prior, anzpar = anzpar)
 }
 
 #returns matrices with shape and scale parameters as well as prior matrix
