@@ -57,11 +57,9 @@ If clusters with only one observation are generated, the algorithm stops.
   \item{clmed}{Matrix with cluster medians}
 }
 \references{
-Mair, P., and Hudec, M. (2008). Analysis of dwell times in Web Usage Mining. 
-Proceedings of the 31st Annual Conference of the German Classification Society 
-on Data Analysis, Machine Learning, and Applications.
-
-Collett, D. (2003). Modelling Survival Data in Medical Research. Boca Raton, FL: Chapman & Hall.
+Mair, P., and Hudec, M. (2009). Multivariate Weibull mixtures with proportional hazard
+restrictions for dwell time based session clustering with incomplete data. Journal of
+the Royal Statistical Society, Series C (Applied Statistics), 58(5), 619-639.
 
 Celaux, G., and Govaert, G. (1992). A classification EM algorithm for clustering and
 two stochastic versions. Computational Statistics and Data Analysis, 14, 315-332.

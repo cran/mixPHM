@@ -6,7 +6,8 @@
 \description{This function fits models for different proportionality restrictions.
 }
 \usage{
-msBIC(x, K, method = "all", Sdist = "weibull", cutpoint = NULL, EMoption = "classification", EMstop = 0.01, maxiter = 100)
+msBIC(x, K, method = "all", Sdist = "weibull", cutpoint = NULL, 
+EMoption = "classification", EMstop = 0.01, maxiter = 100)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

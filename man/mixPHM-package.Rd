@@ -14,20 +14,20 @@ Several survival distributions can be specified. Missing and censored values are
 \tabular{ll}{
 Package: \tab mixPHM\cr
 Type: \tab Package\cr
-Version: \tab 0.7.0\cr
-Date: \tab 2008-12-15\cr
-License: \tab GPL\cr
+Version: \tab 0.7-1\cr
+Date: \tab 2014-11-24\cr
+License: \tab GPL-2\cr
 }
 }
 \author{
 Patrick Mair, Marcus Hudec
 
-Maintainer: Patrick Mair <patrick.mair@wu-wien.ac.at>
+Maintainer: Patrick Mair <mair@fas.harvard.edu>
 }
 \references{
-Mair, P., and Hudec, M. (2008). Analysis of dwell times in Web Usage Mining. 
-Proceedings of the 31st Annual Conference of the German Classification Society 
-on Data Analysis, Machine Learning, and Applications.
+Mair, P., and Hudec, M. (2009). Multivariate Weibull mixtures with proportional hazard
+restrictions for dwell time based session clustering with incomplete data. Journal of
+the Royal Statistical Society, Series C (Applied Statistics), 58(5), 619-639.
 
 Kalbfleisch, J.D., and Prentice, R.L. (1980). The statistical analysis of failure 
 time data. New York: Wiley. 

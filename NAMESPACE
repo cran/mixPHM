@@ -1,4 +1,4 @@
-import("stats", "graphics")
+import("stats", "graphics", "survival", "lattice")
 export(phmclust)
 export(msBIC)
 export(stableEM)
