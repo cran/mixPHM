@@ -59,17 +59,17 @@ if (method=="separate") {
 #---------------------- group contrast ----------------------
 if (method=="main.g") {
     for (i in 1:p) {
-       datreg  <- as.vector(x[,i])			#VD-vektor für i-te Seite
+       datreg  <- as.vector(x[,i])			#VD-vektor i-te Seite
        datreg  <- datreg[x[,i] > 0]
        censvec <- rep(1, length(datreg))   
        censvec[datreg > cutpoint] <- 0     #vector for censored data (set to 0)                 
-       xold    <- old[x[,i] > 0]				#Gruppenvektor für i-te Seite
+       xold    <- old[x[,i] > 0]				#Gruppenvektor i-te Seite
 
        wphm <- survreg(Surv(datreg, censvec)~factor(xold),dist=Sdist)
        scalebase <- as.vector(wphm$coefficients[1])	#scale parameter group 1 (reference group)
        scalevec1 <- as.vector(exp(wphm$coefficients[2:K]+scalebase)) #scale parameter of the remaining groups
        scale [,i] <- c(exp(scalebase),scalevec1)
-       shape [,i] <- 1/wphm$scale			#shape über gruppen konstant
+       shape [,i] <- 1/wphm$scale			#shape gruppen konstant
    }
 anzpar <- K*p+p
 }
@@ -80,7 +80,7 @@ if (method=="main.p") {
     for (j in 1:K)  {
        datregmat <- as.matrix(x[old == j,])
        nsess <- dim(datregmat)[1]				#sessionanzahl in gruppe j
-       pagevek <- rep(1:p,rep(nsess,p))				#Seitenvektor für sessions in gruppe j
+       pagevek <- rep(1:p,rep(nsess,p))				#Seitenvektor sessions in gruppe j
        datreg <- as.vector(datregmat)
        xold <- pagevek[datreg > 0]				#VD > 0
        datreg <- datreg[datreg > 0]
@@ -91,7 +91,7 @@ if (method=="main.p") {
        scalebase <- as.vector(wphm$coefficients[1])
        scalevec1 <- as.vector(exp(wphm$coefficients[2:p]+scalebase))
        scale[j,] <- c(exp(scalebase),scalevec1)
-       shape[j,] <- 1/wphm$scale				#shape bleibt über seiten konstant
+       shape[j,] <- 1/wphm$scale				#shape bleibt seiten konstant
      }
 anzpar <- K*p+K
 }

@@ -1,22 +1,22 @@
-\name{plot.hazard}
-\alias{plot.hazard}
-\alias{plot.profile}
-\alias{plot.survival}
+\name{plot_hazard}
+\alias{plot_hazard}
+\alias{plot_profile}
+\alias{plot_survival}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Plot functions}
 \description{
 Plotting functions for hazard rates, survival times and cluster profiles. 
 }
 \usage{
-\method{plot}{hazard}(x, gr.subset, var.subset, group = TRUE, xlim = NA, ylim = NA, 
+plot_hazard(x, gr.subset, var.subset, group = TRUE, xlim = NA, ylim = NA, 
 xlab = "Survival Time", ylab = "Hazard Function", main = "Hazard Functions", type = "l", 
 lty = 1, lwd = 1, col = NA, legpos = "right", ...)
 
-\method{plot}{survival}(x, gr.subset, var.subset, group = TRUE, xlim = NA, ylim = NA, 
+plot_survival(x, gr.subset, var.subset, group = TRUE, xlim = NA, ylim = NA, 
 xlab = "Survival Time", ylab = "Survival Function", main = "Survival Functions", 
 type = "l", lty = 1, lwd = 1, col = NA, legpos = "right", ...)
 
-\method{plot}{profile}(x, method = "mean", type = "b", pch = 19, lty = 1, lwd = 1, col = NA, 
+plot_profile(x, method = "mean", type = "b", pch = 19, lty = 1, lwd = 1, col = NA, 
 xlab = "Variables", leglab = NA, ylab = NA, main = NA, legpos = "topright", ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -51,13 +51,13 @@ data(webshop)
 res <- phmclust(webshop, 3)
 
 ##Hazard plot for first and third group, all pages
-plot.hazard(res, gr.subset = c(1,3), group = TRUE, xlab = "Dwell Time")
+plot_hazard(res, gr.subset = c(1,3), group = TRUE, xlab = "Dwell Time")
 
 ##Survival plot for each group, first 6 pages
-plot.survival(res, var.subset= 1:6, group = FALSE, xlab = "Dwell Time")
+plot_survival(res, var.subset= 1:6, group = FALSE, xlab = "Dwell Time")
 
 ##Cluster profile plot
-plot.profile(res, xlab = "Pages", ylab = "Mean Dwell Time", main = "Cluster Profile")
+plot_profile(res, xlab = "Pages", ylab = "Mean Dwell Time", main = "Cluster Profile")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

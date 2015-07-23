@@ -14,8 +14,8 @@ Several survival distributions can be specified. Missing and censored values are
 \tabular{ll}{
 Package: \tab mixPHM\cr
 Type: \tab Package\cr
-Version: \tab 0.7-1\cr
-Date: \tab 2014-11-24\cr
+Version: \tab 0.7-2\cr
+Date: \tab 2015-07-23\cr
 License: \tab GPL-2\cr
 }
 }

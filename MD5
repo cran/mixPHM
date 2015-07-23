@@ -1,6 +1,6 @@
-0e7dbd87622f3d8d1719ddd430ea002c *DESCRIPTION
-b216192d1eccf93ab7b37ea69e8e1a68 *NAMESPACE
-30c8c20fbb1a16b7409db8637f6390dd *R/Eclass.R
+48bfdf4e1b46fbe9a343e015dc6885d8 *DESCRIPTION
+6f7f2cc22493540954a363c2f45236a6 *NAMESPACE
+2b4780c65a2ff3598e5fe1d2715dfdcc *R/Eclass.R
 088662359ad5c6a534ccce50448767b7 *R/Emax.R
 74414e79c5d6acd85969ad9e560792ca *R/Mclass.R
 c50d46da61537713ef5a77e40ac01a67 *R/Mmax.R
@@ -9,9 +9,9 @@ c50d46da61537713ef5a77e40ac01a67 *R/Mmax.R
 500358e247800823d388d6169b21c897 *R/logLik.mws.R
 439e18deb1ec43e7f5574f97a8600ae6 *R/msBIC.R
 614cf559eee434131b56002e955b7747 *R/phmclust.R
-e503c24b4be3ec32dda8a7a60598b6bb *R/plot.hazard.R
-423fe72a80d5fe4cd23aa49eef390dae *R/plot.profile.R
-715e01664913cb94e60d8a5f00a91412 *R/plot.survival.R
+badd310570bc647438377b3cca459848 *R/plot_hazard.R
+cc1067343d5220f2cf3fae948b4e648b *R/plot_profile.R
+8a7c585a93281468624f1448114565ea *R/plot_survival.R
 0bcc6a860e3da9a49901e8d5839da005 *R/print.BICmat.R
 bed16937cb04ddf3a32896ff29f89095 *R/print.mws.R
 ebc5c764280626fd9dafbd7a923c4ab0 *R/print.wilcoxh.R
@@ -21,10 +21,10 @@ ebc5c764280626fd9dafbd7a923c4ab0 *R/print.wilcoxh.R
 302b7d5bfe4b591ed51268be4c4bc8b0 *R/summary.mws.R
 d3f2ebdc223a1db0a26ca1c1632f5825 *data/webshop.rda
 61f2ca1fad80d9ea5d6eee98ba73a787 *man/WilcoxH.Rd
-d1197f071deabe8feb1a300574ac2c13 *man/mixPHM-package.Rd
+f8c3aa743f38abe3aab54a950bc0aad5 *man/mixPHM-package.Rd
 6e1605153e6b01666a68efdb3a3b25ff *man/msBIC.Rd
 15913b47467889a7714a1bbe54cd54a7 *man/phmclust.Rd
-77e90932dbaa985289fee72306545783 *man/plot.hazard.Rd
+720925d6cc0ba20a631b009e85f79e80 *man/plot_hazard.Rd
 bd0cef8d2f54ec62e411af381537c03f *man/screeBIC.Rd
 8440672a9c6d6c572668a18fccd6c511 *man/stableEM.Rd
 2d7ecbaf4417cf8f2ee0f1cbe7fa0177 *man/webshop.Rd
